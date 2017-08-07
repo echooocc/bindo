@@ -10,6 +10,8 @@ class App extends Component {
       filterName: ''
     };
     this.handleFilterName = this.handleFilterName.bind(this);
+    this.sortTableAscend = this.sortTableAscend.bind(this);
+    this.sortTableDescend = this.sortTableDescend.bind(this);
   }
 
   componentDidMount() {
@@ -20,8 +22,19 @@ class App extends Component {
 
   handleFilterName(event) {
     let target = event.currentTarget;
-    console.log(target.value);
     this.setState(function(prevState){return {filterName: target.value}});
+  }
+
+  sortTableAscend(){
+     let sortedUser = this.state.users;
+     sortedUser.sort(function(a, b){return b.id - a.id;});
+     this.setState(function(){return {users: sortedUser}})
+  }
+
+  sortTableDescend(){
+     let sortedUser = this.state.users;
+     sortedUser.sort(function(a, b){return a.id - b.id;});
+     this.setState(function(){return {users: sortedUser}})
   }
 
   render() {
@@ -36,6 +49,8 @@ class App extends Component {
         )}
         <form>
           <input type="text" value={this.state.filterName} onChange={this.handleFilterName} />
+          <button type="button" onClick={this.sortTableAscend}>ascend</button>
+          <button type="button" onClick={this.sortTableDescend}>descent</button>
         </form>
       </div>
     );
