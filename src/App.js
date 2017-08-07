@@ -7,11 +7,13 @@ class App extends Component {
     super(props);
     this.state = {
       users: [],
+      userDetail: [],
       filterName: ''
     };
     this.handleFilterName = this.handleFilterName.bind(this);
     this.sortTableAscend = this.sortTableAscend.bind(this);
     this.sortTableDescend = this.sortTableDescend.bind(this);
+    this.handleClickOnUserDetail = this.handleClickOnUserDetail.bind(this);
   }
 
   componentDidMount() {
@@ -37,6 +39,15 @@ class App extends Component {
      this.setState(function(){return {users: sortedUser}})
   }
 
+  handleClickOnUserDetail(event){
+    let target = event.target;
+    let users = this.state.users;
+    let userDetail = users.filter(function(user){
+      return user.id.toString()===target.id;
+    });
+    this.setState(function(){return {userDetail: userDetail}});
+  }
+
   render() {
     return (
       <div className="App">
@@ -44,9 +55,17 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h2>Welcome to React</h2>
         </div>
+        <div onClick={this.handleClickOnUserDetail}>
         {this.state.users.map(user =>
-          user.name.toLowerCase().indexOf(this.state.filterName)>=0 ? <div key={user.id}>{user.name}</div> : ''
+          user.name.toLowerCase().indexOf(this.state.filterName)>=0 ? <div key={user.id} id={user.id}>{user.name}</div> : ''
         )}
+        </div>
+        {this.state.userDetail.length > 0 ?
+          <div>
+            <h2>user details</h2>
+            {this.state.userDetail[0].name}
+          </div> : ''
+        }
         <form>
           <input type="text" value={this.state.filterName} onChange={this.handleFilterName} />
           <button type="button" onClick={this.sortTableAscend}>ascend</button>
