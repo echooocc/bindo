@@ -17,7 +17,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    fetch('http://jsonplaceholder.typicode.com/users')
+    fetch('/api/users')
       .then(res => res.json())
       .then(users => this.setState(function(){return {users: users}}));
   }
@@ -29,13 +29,13 @@ class App extends Component {
 
   sortTableAscend(){
      let sortedUser = this.state.users;
-     sortedUser.sort(function(a, b){return b.id - a.id;});
+     sortedUser.sort(function(a, b){return a.age - b.age;});
      this.setState(function(){return {users: sortedUser}})
   }
 
   sortTableDescend(){
      let sortedUser = this.state.users;
-     sortedUser.sort(function(a, b){return a.id - b.id;});
+     sortedUser.sort(function(a, b){return b.age - a.age;});
      this.setState(function(){return {users: sortedUser}})
   }
 
@@ -57,7 +57,7 @@ class App extends Component {
         </div>
         <div onClick={this.handleClickOnUserDetail}>
         {this.state.users.map(user =>
-          user.name.toLowerCase().indexOf(this.state.filterName)>=0 ? <div key={user.id} id={user.id}>{user.name}</div> : ''
+          user.name.toLowerCase().indexOf(this.state.filterName)>=0 ? <div key={user.id} id={user.id}>{user.name} {user.age}</div> : ''
         )}
         </div>
         {this.state.userDetail.length > 0 ?
