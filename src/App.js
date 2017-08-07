@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import 'milligram';
 import './App.css';
 
 class App extends Component {
@@ -40,37 +40,53 @@ class App extends Component {
   }
 
   handleClickOnUserDetail(event){
-    let target = event.target;
+    //click on table cell, event should be captured on parent node(table row) 
+    let target = event.target.parentNode;
     let users = this.state.users;
     let userDetail = users.filter(function(user){
-      return user.id.toString()===target.id;
+      return user.id.toString()=== target.id;
     });
     this.setState(function(){return {userDetail: userDetail}});
   }
 
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+      <div className="container">
+        <h2>Bindo Code Chanllenge</h2>
+        <div className="row" style={{marginBottom: 10}}>
+          <input type="text" className="column" placeholder="Search for names" value={this.state.filterName} onChange={this.handleFilterName} />
+          <button type="button" className="column column-20 button button-clear" onClick={this.sortTableAscend}>age &uarr;</button>
+          <button type="button" className="column column-20 button button-clear" onClick={this.sortTableDescend}>age &darr;</button>
         </div>
-        <div onClick={this.handleClickOnUserDetail}>
-        {this.state.users.map(user =>
-          user.name.toLowerCase().indexOf(this.state.filterName)>=0 ? <div key={user.id} id={user.id}>{user.name} {user.age}</div> : ''
-        )}
+        <div className="row">
+          <div className="column">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Age</th>
+                </tr>
+              </thead>
+              <tbody onClick={this.handleClickOnUserDetail}>
+              {this.state.users.map(user =>
+                user.name.toLowerCase().indexOf(this.state.filterName)>=0 ? <tr key={user.id} id={user.id}><td>{user.name}</td><td> {user.age}</td></tr> : ''
+              )}
+              </tbody>
+            </table>
+          </div>
+          <div className="column">
+          {this.state.userDetail.length > 0 ?
+            <div>
+              <h2>{this.state.userDetail[0].name}</h2>
+              <img src={this.state.userDetail[0].image} alt="avatar"/>
+              <p>gender: {this.state.userDetail[0].gender}</p>
+              <p>email: {this.state.userDetail[0].email}</p>
+              <p>phone: {this.state.userDetail[0].phone}</p>
+              <p>phrase: {this.state.userDetail[0].phrase}</p>   
+            </div> : ''
+          }
+          </div>
         </div>
-        {this.state.userDetail.length > 0 ?
-          <div>
-            <h2>user details</h2>
-            {this.state.userDetail[0].name}
-          </div> : ''
-        }
-        <form>
-          <input type="text" value={this.state.filterName} onChange={this.handleFilterName} />
-          <button type="button" onClick={this.sortTableAscend}>ascend</button>
-          <button type="button" onClick={this.sortTableDescend}>descent</button>
-        </form>
       </div>
     );
   }
