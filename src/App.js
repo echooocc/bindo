@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import UtilityBar from './UtilityBar';
+import UserTable from './UserTable';
 import 'milligram';
 import './App.css';
 
@@ -14,72 +16,6 @@ function UserDetail({ user }) {
       <p>phrase: {user.phrase}</p>
     </div>
   );
-}
-
-class UtilityBar extends Component {
-  constructor(props) {
-    super(props);
-    this.handleFilterNameChange = this.handleFilterNameChange.bind(this);
-    this.handleSortAscend = this.handleSortAscend.bind(this);
-    this.handleSortDescend = this.handleSortDescend.bind(this);
-  }
-
-  handleFilterNameChange = (e) => {
-    let target = e.currentTarget;
-    this.props.handleFilterName(target.value) ;
-  }
-
-  handleSortAscend(e) {
-    e.preventDefault();
-    return this.props.handleSort('ascend');
-  }
-
-  handleSortDescend(e) {
-    e.preventDefault();
-    return this.props.handleSort('descend');
-  }
-
-  render() {
-    return (
-      <div className="row" style={{marginBottom: 10}}>
-        <input type="text" className="column" placeholder="Search for names" value={this.props.filterName} onChange={this.handleFilterNameChange} />
-        <button type="button" className="column column-20 button button-clear" onClick={this.handleSortAscend}>age &uarr;</button>
-        <button type="button" className="column column-20 button button-clear" onClick={this.handleSortDescend}>age &darr;</button>
-      </div>
-    );
-  }
-}
-
-class UserTable extends Component{
-  constructor(props) {
-    super(props);
-    this.handleClickOnUserDetail = this.handleClickOnUserDetail.bind(this);
-  }
-
-  handleClickOnUserDetail(e){
-    //click on table cell, event should be captured on parent node(table row)
-    let target = e.target.parentNode;
-    e.preventDefault();
-    return this.props.handleOnUserDetail(target);
-  }
-
-  render() {
-    return (
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Age</th>
-          </tr>
-        </thead>
-        <tbody onClick={this.handleClickOnUserDetail}>
-          {this.props.users.map(user =>
-            user.name.toLowerCase().indexOf(this.props.filterName)>=0 ? <tr key={user.id} id={user.id}><td>{user.name}</td><td> {user.age}</td></tr> : ''
-          )}
-        </tbody>
-      </table>
-    )
-  }
 }
 
 class App extends Component {
@@ -147,6 +83,5 @@ class App extends Component {
     );
   }
 }
-
 
 export default App;
