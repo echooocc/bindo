@@ -2,6 +2,7 @@
   "name": "bindo",
   "version": "0.1.0",
   "private": true,
+  "author": "Echo Yu",
   "dependencies": {
     "express": "^4.15.4",
     "react": "^15.6.1",
@@ -12,7 +13,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "server": "node server.js"
   },
   "proxy": "http://localhost:8080",
   "devDependencies": {
